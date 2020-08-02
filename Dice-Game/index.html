@@ -40,9 +40,6 @@
       <button class="btn-new">
         <i class="ion-ios-plus-outline"></i>New game
       </button>
-      <button class="btn-rules">
-        Rules
-      </button>
       <button class="btn-roll"><i class="ion-ios-loop"></i>Roll dice</button>
       <button class="btn-hold">
         <i class="ion-ios-download-outline"></i>Hold
@@ -50,11 +47,54 @@
 
       <input type="text" placeholder="Goal score" class="final-score" />
 
+      <div>
+        <button class="btn-rules">
+          Rules
+        </button>
+        <div class="modal">
+          <div class="modal-content">
+            <span class="close-button">&times;</span>
+            <h1>Game rules</h1>
+            <br />
+            <p>1. The game has 2 players, playing in rounds.</p>
+            <br />
+            <p>2. The GOAL score is set at the beginning by the user.</p>
+            <br />
+            <p>
+              3. In each turn, a player rolls a dice and each result gets added
+              to his ROUND score.
+            </p>
+            <br />
+            <p>
+              4. A Player loses his ROUND score when he rolls two 1s in a row
+              and it's next Player's turn.
+            </p>
+            <br />
+            <p>
+              5. A Player loses his TOTAL score when he rolls two 6s two times
+              in a row.
+            </p>
+            <br />
+            <p>
+              6. The Player can choose to 'Hold', which means that his ROUND
+              score gets added to his GLOBAL score and after that it's next
+              Player's turn.
+            </p>
+            <br />
+            <p>
+              7. The first player to reach points which is set at the beginning,
+              wins the game.
+            </p>
+          </div>
+        </div>
+      </div>
+
       <img src="dice-5.png" alt="Dice" class="dice" id="dice-1" />
       <img src="dice-5.png" alt="Dice" class="dice" id="dice-2" />
     </div>
 
     <!--<script src="app.js"></script>-->
     <script src="script.js"></script>
+    <script src="modal.js"></script>
   </body>
 </html>
