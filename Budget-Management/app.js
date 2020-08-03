@@ -3,10 +3,10 @@ const BudgetController = (() => {
     this.id = id;
     this.description = description;
     this.value = value;
-    this.addedDate = addedDate;
+    this.addedDate = getDate();
   };
 
-  const Expense = function(id, description, value, addedDate){
+  const Expense = function(id, description, value){
     Item.call(id, description, value, addedDate);
   }
 
@@ -18,14 +18,49 @@ const BudgetController = (() => {
     }
   }
 
-  const Income = function(id, description, value, addedDate){
+  Expense.prototype.getPercentage = function(){
+      return this.percentage;
+  }
+
+  const Income = function(id, description, value){
       Item.call(this, id, description, value, addedDate)
   }
 
+  const calculateTotal = function(type) {
+      const sum = data.allItems[type].reduce((total, item) => total + item.value, 0);
+      data.totals[type] = sum;
+  }
+
+  const getDate = function(){
+      const now = new Date();
+
+      months = [
+          'Jan',
+          'Feb',
+          'Mar',
+          'Apr',
+          'May',
+          'June',
+          'July',
+          'Aug',
+          'Sep',
+          'Oct',
+          'Nov',
+          'Dec',
+      ];
+
+      const dd = String(now.getDate()).padStart(2, '0');
+      const mm = now.getMonth();
+
+      const date = `${now.getFullYear()}-${months[mm]}-${dd}`;
+
+      return date;
+  }
+
   data = {
-      items = {
-          incomes: [],
-          expenses: []
+      allItems = {
+          inc: [],
+          exp: []
       },
       totals = {
         inc: 0,
@@ -34,6 +69,43 @@ const BudgetController = (() => {
       budget: 0,
       percentage: -1
   };
+
+  return {
+      addItem: (type, des, val) => {
+          let newItem, ID;
+          
+
+          if(data.allItems[type].length > 0) {
+              ID = data.allItems[type][data.allItems[type].length - 1].id + 1;
+          }else{
+              ID = 0;
+          }
+
+          if(type === 'exp'){
+              newItem = new Expense(ID, des, val);
+          }else if(type === 'inc'){
+              newItem = new Income(ID, des, val);
+          }
+
+          data.allItems[type].push(newItem);
+
+          return newItem;
+      },
+
+      deleteItem: (id, type) => {
+          let ids, index;
+
+          ids = data.allItems[type].map((curr) => {
+            return curr.id;
+          });
+
+          index = ids.indexOf(id);
+
+          if(index !== -1){
+              data.allItems[type].splice(index, 1);
+          }
+      }
+  }
 })();
 
 const UIController = (() => {
