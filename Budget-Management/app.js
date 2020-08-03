@@ -414,5 +414,46 @@ const Controller = ((UICtrl, budgetCtrl) => {
             // calculate and update percentages
             updatePercentages();
         }
+    };
+
+    const ctrlDeleteItem = (event) => {
+        let itemID, splitID, type, ID;
+
+        itemID = event.target.parentNode.parentNode.parentNode.parentNode.id;
+
+        if (itemID) {
+            //inc-1
+            splitID = itemID.split('-');
+            type = splitID[0];
+            ID = parseInt(splitID[1]);
+
+            // delete the item from the data structure
+            budgetCtrl.deleteItem(type, ID);
+
+            // delete the item from the UI
+            UICtrl.deleteListItem(itemID);
+
+            // update and show the new budget
+            updateBudget();
+
+            // calculate and update percentages
+            updatePercentages();
+        }
+    };
+
+    return {
+        init: () => {
+            console.log('Application started...');
+            UICtrl.displayMonth();
+            UICtrl.displayBudget({
+                budget: 0,
+                totalInc: 0,
+                totalExp: 0,
+                percentage: -1
+            });
+            setupEventListeners();
+        }
     }
 })(UIController, BudgetController);
+
+Controller.init();
