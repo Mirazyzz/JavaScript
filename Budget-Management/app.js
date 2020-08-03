@@ -352,7 +352,7 @@ const UIController = (() => {
     
 })();
 
-const Controller = ((UICtrl, BdgCtrl) => {
+const Controller = ((UICtrl, budgetCtrl) => {
     const setupEventListeners = () => {
         const DOM = UICtrl.getDOMstrings();
 
@@ -366,5 +366,53 @@ const Controller = ((UICtrl, BdgCtrl) => {
 
         document.querySelector(DOM.container).addEventListener('click', ctrlDeleteItem);
         document.querySelector(DOM.inputType).addEventListener('change', UICtrl.changedType);
+    };
+
+    const updateBudget = () => {
+        // Calculate the budget
+
+        budgetCtrl.calculateBudget();
+
+        // return budget
+        let budget = budgetCtrl.getBudget();
+
+        // display budget
+        UICtrl.displayBudget(budget);
+    };
+
+    const updatePercentages = () => {
+        // calculate percentages
+        budgetCtrl.calculatePercentages();
+
+        // get percentages from budget controller
+        const percentages = budgetCtrl.getPercentages();
+
+        // update UI with new percentages
+
+        UICtrl.displayPercentages(percentages);
+    };
+
+    const ctrlAddItem = () => {
+        let input, newItem;
+
+        // get input
+        input = UICtrl.getInput();
+
+        if (input.description !== '' && !isNaN(input.value) && input.value > 0) {
+            // add the item to the budget controller
+            newItem = budgetCtrl.addItem(input.type, input.description, input.value);
+
+            // add the item to the UI
+            UICtrl.addListItem(newItem, input.type);
+
+            // clear the fields
+            UICtrl.clearFields();
+
+            // calculate and update budget
+            updateBudget();
+
+            // calculate and update percentages
+            updatePercentages();
+        }
     }
 })(UIController, BudgetController);
