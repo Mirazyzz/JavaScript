@@ -104,8 +104,60 @@ const BudgetController = (() => {
           if(index !== -1){
               data.allItems[type].splice(index, 1);
           }
+      },
+
+      // calculate total budget
+      calculateBudget: () => {
+          calculateTotal('exp');
+          calculateTotal('inc');
+
+          // total budget for all items
+          data.budget = data.totals.inc - data.totals.exp;
+
+          // calculate the percentage of expense
+          if(data.totals.inc > 0){
+              data.percentage = ((data.totals.exp * 100) / data.totals.inc).toFixed(1);
+          }else{
+              data.percentage = -1;
+          }
+
+          // expese: 30 and income: 100, percentage of total expense = (30 * 100) / 100 = 33.3 (toFixed = 1)
+      },
+
+      // calculate percentage of each item
+      calculatePercentages: () => {
+      /*
+        a=20
+        b=10
+        c=40
+        income = 100
+        a=20/100=20%
+        b=10/100=10%
+        c=40/100=40%
+        */
+
+        data.allItems.exp.array.forEach(item => {
+            item.calculatePercentage(data.totals.inc);
+        });
+      },
+
+      getPercentages: () => {
+        let allPercentages = data.allItems.exp.map(item => {
+            return item.getPercentage();
+        });
+
+        return allPercentages;
+      },
+
+      getBudget: () => {
+          return {
+              budget: data.budget,
+              totalInc: data.totals.inc,
+              totalExp: data.totals.exp,
+              percentage: data.percentage
+          };
       }
-  }
+  };
 })();
 
 const UIController = (() => {
