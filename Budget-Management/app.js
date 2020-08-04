@@ -74,6 +74,19 @@ const BudgetController = (() => {
   };
 
   return {
+    loadData: () => {
+      const incomes = JSON.stringify(localStorage.getItem('inc'));
+      const expenses = JSON.stringify(localStorage.getItem('exp'));
+
+      if (incomes) {
+        data.allItems['inc'] = incomes;
+      }
+
+      if (expenses) {
+        data.allItems['exp'] = expenses;
+      }
+    },
+
     addItem: (type, des, val) => {
       let newItem, ID;
 
@@ -89,6 +102,8 @@ const BudgetController = (() => {
       }
       data.allItems[type].push(newItem);
 
+      localStorage.setItem(type, JSON.stringify(data.allItems[type]));
+      console.log(localStorage.getItem(type));
       return newItem;
     },
 
@@ -104,6 +119,8 @@ const BudgetController = (() => {
       if (index !== -1) {
         data.allItems[type].splice(index, 1);
       }
+
+      localStorage.setItem(type, JSON.stringify(data.allItems[type]));
     },
 
     // calculate total budget
@@ -219,6 +236,19 @@ const UIController = (() => {
         description: document.querySelector(DOMstrings.inputDescription).value,
         value: Number(document.querySelector(DOMstrings.inputValue).value),
       };
+    },
+
+    loadListItems: () => {
+      const incomes = JSON.parse(localStorage.getItem('inc'));
+      const expenses = JSON.parse(localStorage.getItem('exp'));
+
+      if (incomes) {
+        incomes.forEach((el) => addListItem(el, 'inc'));
+      }
+
+      if (expenses) {
+        expenses.forEach((el) => addListItem(el, 'exp'));
+      }
     },
 
     addListItem: (obj, type) => {
@@ -447,6 +477,8 @@ const Controller = ((UICtrl, budgetCtrl) => {
   return {
     init: () => {
       console.log('Application started...');
+      budgetCtrl.loadData();
+      UICtrl.loadListItems();
       UICtrl.displayMonth();
       UICtrl.displayBudget({
         budget: 0,
