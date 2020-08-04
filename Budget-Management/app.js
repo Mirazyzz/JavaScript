@@ -75,15 +75,17 @@ const BudgetController = (() => {
 
   return {
     loadData: () => {
-      const incomes = JSON.stringify(localStorage.getItem('inc'));
-      const expenses = JSON.stringify(localStorage.getItem('exp'));
+      const incomes = JSON.parse(localStorage.getItem('inc'));
+      const expenses = JSON.parse(localStorage.getItem('exp'));
 
       if (incomes) {
         data.allItems['inc'] = incomes;
+        console.log(incomes);
       }
 
       if (expenses) {
         data.allItems['exp'] = expenses;
+        console.log(expenses);
       }
     },
 
@@ -176,6 +178,10 @@ const BudgetController = (() => {
         percentage: data.percentage,
       };
     },
+
+    getIncomes: () => data.allItems['inc'],
+
+    getExpenses: () => data.allItems['exp'],
   };
 })();
 
@@ -236,19 +242,6 @@ const UIController = (() => {
         description: document.querySelector(DOMstrings.inputDescription).value,
         value: Number(document.querySelector(DOMstrings.inputValue).value),
       };
-    },
-
-    loadListItems: () => {
-      const incomes = JSON.parse(localStorage.getItem('inc'));
-      const expenses = JSON.parse(localStorage.getItem('exp'));
-
-      if (incomes) {
-        incomes.forEach((el) => addListItem(el, 'inc'));
-      }
-
-      if (expenses) {
-        expenses.forEach((el) => addListItem(el, 'exp'));
-      }
     },
 
     addListItem: (obj, type) => {
@@ -477,8 +470,18 @@ const Controller = ((UICtrl, budgetCtrl) => {
   return {
     init: () => {
       console.log('Application started...');
+
+      // load data from localstorage to budget controller
       budgetCtrl.loadData();
-      UICtrl.loadListItems();
+
+      // retriver them from budget controller
+      const incomes = budgetCtrl.getIncomes();
+      const expenses = budgetCtrl.getExpenses();
+
+      // add to the UI if there any items
+      if (incomes) incomes.forEach((el) => UICtrl.addListItem(el, 'inc'));
+      if (expenses) expenses.forEach((el) => UICtrl.addListItem(el, 'exp'));
+
       UICtrl.displayMonth();
       UICtrl.displayBudget({
         budget: 0,
