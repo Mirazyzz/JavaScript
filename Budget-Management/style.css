@@ -191,19 +191,20 @@ body {
 
 /***** LISTS *****/
 .container {
-  width: 1000px;
-  margin: 60px auto;
+  width: 1200px;
+  margin: 40px auto;
 }
 
 .income {
   float: left;
-  width: 475px;
+  width: 525px;
   margin-right: 50px;
 }
 
 .expenses {
   float: left;
-  width: 475px;
+  width: 525px;
+  margin-left: 50px;
 }
 
 h2 {
@@ -230,6 +231,11 @@ h2 {
 }
 .item:nth-child(even) {
   background-color: #f7f7f7;
+}
+
+.item__date {
+  float: left;
+  transition: transform 0.3s;
 }
 
 .item__description {
