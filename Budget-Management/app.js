@@ -252,16 +252,17 @@ const UIController = (() => {
         element = DOMstrings.incomeContainer;
 
         html =
-          '<div class="item clearfix" id="inc-%id%"> <div class="item__date">20-AUG || </div> <div class="item__description">%description%</div><div class="right clearfix"><div class="item__value">%value%</div><div class="item__delete"><button class="item__delete--btn"><i class="ion-ios-close-outline"></i></button></div></div></div>';
+          '<div class="item clearfix" id="inc-%id%"> <div class="item__date">%addedDate% | </div> <div class="item__description">%description%</div><div class="right clearfix"><div class="item__value">%value%</div><div class="item__delete"><button class="item__delete--btn"><i class="ion-ios-close-outline"></i></button></div></div></div>';
       } else if (type === 'exp') {
         element = DOMstrings.expensesContainer;
 
         html =
-          '<div class="item clearfix" id="exp-%id%"> <div class="item__date">20-AUG || </div> <div class="item__description">%description%</div><div class="right clearfix"><div class="item__value">%value%</div><div class="item__percentage">21%</div><div class="item__delete"><button class="item__delete--btn"><i class="ion-ios-close-outline"></i></button></div></div></div>';
+          '<div class="item clearfix" id="exp-%id%"> <div class="item__date">%addedDate% | </div> <div class="item__description">%description%</div><div class="right clearfix"><div class="item__value">%value%</div><div class="item__percentage">21%</div><div class="item__delete"><button class="item__delete--btn"><i class="ion-ios-close-outline"></i></button></div></div></div>';
       }
 
       // Replace the placeholder text with some actual data
       newHtml = html.replace('%id%', obj.id);
+      newHtml = html.replace('%addedDate%', obj.addedDate.substr(5));
       newHtml = newHtml.replace('%description%', obj.description);
       newHtml = newHtml.replace('%value%', formatNumber(obj.value, type));
 
@@ -473,6 +474,7 @@ const Controller = ((UICtrl, budgetCtrl) => {
 
       // load data from localstorage to budget controller
       budgetCtrl.loadData();
+      budgetCtrl.calculateBudget();
 
       // retriver them from budget controller
       const incomes = budgetCtrl.getIncomes();
