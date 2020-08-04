@@ -482,13 +482,10 @@ const Controller = ((UICtrl, budgetCtrl) => {
       if (incomes) incomes.forEach((el) => UICtrl.addListItem(el, 'inc'));
       if (expenses) expenses.forEach((el) => UICtrl.addListItem(el, 'exp'));
 
+      const budget = budgetCtrl.getBudget();
+
       UICtrl.displayMonth();
-      UICtrl.displayBudget({
-        budget: 0,
-        totalInc: 0,
-        totalExp: 0,
-        percentage: -1,
-      });
+      UICtrl.displayBudget(budget);
       setupEventListeners();
     },
   };
