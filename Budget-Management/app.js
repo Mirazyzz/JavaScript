@@ -76,16 +76,39 @@ const BudgetController = (() => {
   return {
     loadData: () => {
       const incomes = JSON.parse(localStorage.getItem('inc'));
-      const expenses = JSON.parse(localStorage.getItem('exp'));
+      const expenses = JSON.parse(localStorage.getItem('exp'), (key, val) => {
+        if (key === 'inc') {
+          let res = new Income();
+          res.id = val.id;
+          res.description = val.description;
+          res.value = val.value;
+          res.addedDate = val.addedDate;
+          return res;
+        } else if (key === 'exp') {
+          let res = new Expense();
+          res.id = val.id;
+          res.description = val.description;
+          res.value = val.value;
+          res.addedDate = val.addedDate;
+          res.percentage = val.percentage;
+          return res;
+        }
+      });
+
+      console.log(typeof expenses[0]);
 
       if (incomes) {
+        incomes.forEach((el) => (el = Object.assign(Income.prototype, el)));
+
         data.allItems['inc'] = incomes;
-        console.log(incomes);
+        console.log(typeof incomes[0]);
       }
 
       if (expenses) {
+        expenses.forEach((el) => Object.assign(Expense.prototype, el));
+
         data.allItems['exp'] = expenses;
-        console.log(expenses);
+        console.log(typeof Object.assign(Expense.prototype, expenses[0]));
       }
     },
 
@@ -156,6 +179,8 @@ const BudgetController = (() => {
         b=10/100=10%
         c=40/100=40%
         */
+
+      console.log(data.allItems.exp);
 
       data.allItems.exp.forEach((item) => {
         item.calculatePercentage(data.totals.inc);
@@ -252,12 +277,12 @@ const UIController = (() => {
         element = DOMstrings.incomeContainer;
 
         html =
-          '<div class="item clearfix" id="inc-%id%"> <div class="item__date">%addedDate% | </div> <div class="item__description">%description%</div><div class="right clearfix"><div class="item__value">%value%</div><div class="item__delete"><button class="item__delete--btn"><i class="ion-ios-close-outline"></i></button></div></div></div>';
+          '<div class="item clearfix" id="inc-%id%"> <div class="item__date">%addedDate% | </div> <div class="item__description">%description%</div><div class="right clearfix"><div class="item__value">%value%</div><div class="item__delete"><button class="item__delete--btn"><i class="ion-ios-close-outline"></i></button></div><div class="item__edit"><button class="item__edit--btn" > <i class="fas fa-edit"></i></button ></div ></div></div>';
       } else if (type === 'exp') {
         element = DOMstrings.expensesContainer;
 
         html =
-          '<div class="item clearfix" id="exp-%id%"> <div class="item__date">%addedDate% | </div> <div class="item__description">%description%</div><div class="right clearfix"><div class="item__value">%value%</div><div class="item__percentage">21%</div><div class="item__delete"><button class="item__delete--btn"><i class="ion-ios-close-outline"></i></button></div></div></div>';
+          '<div class="item clearfix" id="exp-%id%"> <div class="item__date">%addedDate% | </div> <div class="item__description">%description%</div><div class="right clearfix"><div class="item__value">%value%</div><div class="item__percentage">21%</div><div class="item__delete"><button class="item__delete--btn"><i class="ion-ios-close-outline"></i></button> </div><div class="item__edit"><button class="item__edit--btn" > <i class="fas fa-edit"></i></button ></div ></div></div>';
       }
 
       // Replace the placeholder text with some actual data
@@ -444,6 +469,7 @@ const Controller = ((UICtrl, budgetCtrl) => {
   };
 
   const ctrlDeleteItem = (event) => {
+    console.log('should delete');
     let itemID, splitID, type, ID;
 
     itemID = event.target.parentNode.parentNode.parentNode.parentNode.id;

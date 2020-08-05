@@ -260,21 +260,25 @@ h2 {
 }
 
 .income .item__value,
-.income .item__delete--btn {
+.income .item__delete--btn,
+.item__edit--btn {
   color: #28b9b5;
 }
 
 .expenses .item__value,
 .expenses .item__percentage,
-.expenses .item__delete--btn {
+.expenses .item__delete--btn,
+.item__edit--btn {
   color: #ff5049;
 }
 
-.item__delete {
+.item__delete,
+.item__edit {
   float: left;
 }
 
-.item__delete--btn {
+.item__delete--btn,
+.item__edit--btn {
   font-size: 22px;
   background: none;
   border: none;
@@ -288,13 +292,29 @@ h2 {
 .item__delete--btn:focus {
   outline: none;
 }
+
+.item__edit--btn:focus {
+  outline: none;
+}
+
 .item__delete--btn:active {
+  transform: translateY(2px);
+}
+
+.item__edit--btn:active {
   transform: translateY(2px);
 }
 
 .item:hover .item__delete--btn {
   display: block;
+  margin-right: 10px;
 }
+
+.item:hover .item__edit--btn {
+  display: block;
+  margin-right: 10px;
+}
+
 .item:hover .item__value {
   transform: translateX(-20px);
 }
