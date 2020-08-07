@@ -3,11 +3,12 @@ const BudgetController = (() => {
     this.id = id;
     this.description = description;
     this.value = value;
-    this.addedDate = getDate();
+    if (addedDate) this.addedDate = addedDate;
+    else this.addedDate = getDate();
   };
 
-  const Expense = function (id, description, value) {
-    Item.call(this, id, description, value);
+  const Expense = function (id, description, value, addedDate) {
+    Item.call(this, id, description, value, addedDate);
   };
 
   Expense.prototype.calculatePercentage = function (totalIncome) {
@@ -22,8 +23,8 @@ const BudgetController = (() => {
     return this.percentage;
   };
 
-  const Income = function (id, description, value) {
-    Item.call(this, id, description, value);
+  const Income = function (id, description, value, addedDate) {
+    Item.call(this, id, description, value, addedDate);
   };
 
   const calculateTotal = function (type) {
@@ -75,40 +76,31 @@ const BudgetController = (() => {
 
   return {
     loadData: () => {
-      const incomes = JSON.parse(localStorage.getItem('inc'));
-      const expenses = JSON.parse(localStorage.getItem('exp'), (key, val) => {
-        if (key === 'inc') {
-          let res = new Income();
-          res.id = val.id;
-          res.description = val.description;
-          res.value = val.value;
-          res.addedDate = val.addedDate;
-          return res;
-        } else if (key === 'exp') {
-          let res = new Expense();
-          res.id = val.id;
-          res.description = val.description;
-          res.value = val.value;
-          res.addedDate = val.addedDate;
-          res.percentage = val.percentage;
-          return res;
-        }
-      });
+      const inc = JSON.parse(localStorage.getItem('inc'));
+      const exp = JSON.parse(localStorage.getItem('exp'));
 
-      console.log(typeof expenses[0]);
+      const incomes = inc.map(
+        (el) => new Income(el.id, el.description, el.value, el.addedDate)
+      );
+
+      const expenses = exp.map(
+        (el) => new Expense(el.id, el.description, el.value, el.addedDate)
+      );
+
+      //console.log(incomes[0]);
+      //console.log(expenses[0]);
 
       if (incomes) {
-        incomes.forEach((el) => (el = Object.assign(Income.prototype, el)));
+        //incomes.forEach((el) => (el = Object.assign(Income.prototype, el)));
 
         data.allItems['inc'] = incomes;
-        console.log(typeof incomes[0]);
+        //console.log(typeof incomes[0]);
       }
 
       if (expenses) {
-        expenses.forEach((el) => Object.assign(Expense.prototype, el));
+        //expenses.forEach((el) => Object.assign(Expense.prototype, el));
 
         data.allItems['exp'] = expenses;
-        console.log(typeof Object.assign(Expense.prototype, expenses[0]));
       }
     },
 
@@ -128,7 +120,7 @@ const BudgetController = (() => {
       data.allItems[type].push(newItem);
 
       localStorage.setItem(type, JSON.stringify(data.allItems[type]));
-      console.log(localStorage.getItem(type));
+
       return newItem;
     },
 
@@ -180,7 +172,7 @@ const BudgetController = (() => {
         c=40/100=40%
         */
 
-      console.log(data.allItems.exp);
+      //console.log(data.allItems.exp);
 
       data.allItems.exp.forEach((item) => {
         item.calculatePercentage(data.totals.inc);
@@ -285,9 +277,10 @@ const UIController = (() => {
           '<div class="item clearfix" id="exp-%id%"> <div class="item__date">%addedDate% | </div> <div class="item__description">%description%</div><div class="right clearfix"><div class="item__value">%value%</div><div class="item__percentage">21%</div><div class="item__delete"><button class="item__delete--btn"><i class="ion-ios-close-outline"></i></button> </div><div class="item__edit"><button class="item__edit--btn" > <i class="fas fa-edit"></i></button ></div ></div></div>';
       }
 
+      //console.log(obj.id);
       // Replace the placeholder text with some actual data
       newHtml = html.replace('%id%', obj.id);
-      newHtml = html.replace('%addedDate%', obj.addedDate.substr(5));
+      newHtml = newHtml.replace('%addedDate%', obj.addedDate.substr(5));
       newHtml = newHtml.replace('%description%', obj.description);
       newHtml = newHtml.replace('%value%', formatNumber(obj.value, type));
 
@@ -469,16 +462,19 @@ const Controller = ((UICtrl, budgetCtrl) => {
   };
 
   const ctrlDeleteItem = (event) => {
-    console.log('should delete');
     let itemID, splitID, type, ID;
 
     itemID = event.target.parentNode.parentNode.parentNode.parentNode.id;
+    // console.log(itemID);
 
     if (itemID) {
       //inc-1
       splitID = itemID.split('-');
+
       type = splitID[0];
       ID = parseInt(splitID[1]);
+
+      //console.log(`type: ${type}, id: ${ID}`);
 
       // delete the item from the data structure
       budgetCtrl.deleteItem(ID, type);
@@ -506,6 +502,8 @@ const Controller = ((UICtrl, budgetCtrl) => {
       const incomes = budgetCtrl.getIncomes();
       const expenses = budgetCtrl.getExpenses();
 
+      // console.log(incomes);
+
       // add to the UI if there any items
       if (incomes) incomes.forEach((el) => UICtrl.addListItem(el, 'inc'));
       if (expenses) expenses.forEach((el) => UICtrl.addListItem(el, 'exp'));
@@ -514,6 +512,7 @@ const Controller = ((UICtrl, budgetCtrl) => {
 
       UICtrl.displayMonth();
       UICtrl.displayBudget(budget);
+      updatePercentages();
       setupEventListeners();
     },
   };
