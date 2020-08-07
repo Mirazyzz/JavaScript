@@ -260,16 +260,18 @@ h2 {
 }
 
 .income .item__value,
-.income .item__delete--btn,
-.item__edit--btn {
+.income .item__delete--btn {
   color: #28b9b5;
 }
 
 .expenses .item__value,
 .expenses .item__percentage,
-.expenses .item__delete--btn,
-.item__edit--btn {
+.expenses .item__delete--btn {
   color: #ff5049;
+}
+
+.item__edit--btn {
+  color: #e6e600;
 }
 
 .item__delete,
