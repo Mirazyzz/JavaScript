@@ -228,8 +228,7 @@ const UIController = (() => {
     incomeLabel: '.budget__income--value',
     expensesLabel: '.budget__expenses--value',
     percentageLabel: '.budget__expenses--percentage',
-    deleteBtn: '.item__delete--btn',
-    updateBtn: '.item__edit--btn',
+    container: '.container',
     expensesPercLabel: '.item__percentage',
     dateLabel: '.budget__title--month',
   };
@@ -418,9 +417,8 @@ const UIController = (() => {
 })();
 
 const Controller = ((UICtrl, budgetCtrl) => {
+  const DOM = UICtrl.getDOMstrings();
   const setupEventListeners = () => {
-    const DOM = UICtrl.getDOMstrings();
-
     document.querySelector(DOM.inputBtn).addEventListener('click', ctrlAddItem);
 
     document.addEventListener('keypress', (even) => {
@@ -430,14 +428,12 @@ const Controller = ((UICtrl, budgetCtrl) => {
     });
 
     document
-      .querySelector(DOM.deleteBtn)
-      .addEventListener('click', ctrlDeleteItem);
+      .querySelector(DOM.container)
+      .addEventListener('click', ctrlDeleteOrUpdate);
+
     document
       .querySelector(DOM.inputType)
       .addEventListener('change', UICtrl.changedType);
-    document
-      .querySelector(DOM.updateBtn)
-      .addEventListener('click', ctrlEditItem);
   };
 
   const updateBudget = () => {
@@ -487,12 +483,12 @@ const Controller = ((UICtrl, budgetCtrl) => {
     }
   };
 
-  const ctrlEditItem = (event) => {
+  const ctrlDeleteOrUpdate = (event) => {
     let itemID, splitID, type, ID;
 
     itemID = event.target.parentNode.parentNode.parentNode.parentNode.id;
     // console.log(itemID);
-    console.log('should update');
+
     if (itemID) {
       //inc-1
       splitID = itemID.split('-');
@@ -500,47 +496,47 @@ const Controller = ((UICtrl, budgetCtrl) => {
       type = splitID[0];
       ID = parseInt(splitID[1]);
 
-      //console.log(`type: ${type}, id: ${ID}`);
+      //check if delete or update button was clicked
+      if (event.path[1].className === 'item__delete--btn') {
+        //console.log(`type: ${type}, id: ${ID}`);
 
-      // get item object
-      const item = budgetCtrl.getItem(ID, type);
-
-      if (item) {
         // delete the item from the data structure
         budgetCtrl.deleteItem(ID, type);
 
         // delete the item from the UI
+        UICtrl.deleteListItem(itemID);
+      } else if (event.path[1].className === 'item__edit--btn') {
+        // get selected item to pass it to input
+        const item = budgetCtrl.getItem(ID, type);
+
+        console.log(item);
+
+        // delete the item from the data structure
+        budgetCtrl.deleteItem(ID, type);
+
         UICtrl.updateListItem(itemID, item);
 
-        // update and show the new budget
-        updateBudget();
+        // check what is the current type of the input
+        const inputType = document.querySelector(DOM.inputType).value;
 
-        // calculate and update percentages
-        updatePercentages();
+        // when type of item is exp and input is income change its type to expense
+        // when type of item is inc and input is expense change it to income
+        // when they are the same do nothing
+
+        if (type === 'exp') {
+          if (inputType === 'inc') {
+            UICtrl.changedType();
+            document.querySelector(DOM.inputType).value = 'exp';
+          }
+        } else if (type === 'inc') {
+          if (inputType === 'exp') {
+            UICtrl.changedType();
+            document.querySelector(DOM.inputType).value = 'inc';
+          }
+        }
+      } else {
+        return;
       }
-    }
-  };
-
-  const ctrlDeleteItem = (event) => {
-    let itemID, splitID, type, ID;
-
-    itemID = event.target.parentNode.parentNode.parentNode.parentNode.id;
-    // console.log(itemID);
-
-    if (itemID) {
-      //inc-1
-      splitID = itemID.split('-');
-
-      type = splitID[0];
-      ID = parseInt(splitID[1]);
-
-      //console.log(`type: ${type}, id: ${ID}`);
-
-      // delete the item from the data structure
-      budgetCtrl.deleteItem(ID, type);
-
-      // delete the item from the UI
-      UICtrl.deleteListItem(itemID);
 
       // update and show the new budget
       updateBudget();
