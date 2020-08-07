@@ -305,10 +305,10 @@ const UIController = (() => {
 
     updateListItem: (selectorId, item) => {
       let el = document.getElementById(selectorId);
-      console.log(item);
-      document.querySelector('.item__description').textContent =
+      el.parentNode.removeChild(el);
+      document.querySelector(DOMstrings.inputDescription).value =
         item.description;
-      document.querySelector('.item__value').textContent = item.value;
+      document.querySelector(DOMstrings.inputValue).value = item.value;
     },
 
     deleteListItem: (selectorId) => {
