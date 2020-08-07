@@ -140,6 +140,20 @@ const BudgetController = (() => {
       localStorage.setItem(type, JSON.stringify(data.allItems[type]));
     },
 
+    getItem: (id, type) => {
+      let ids, index;
+
+      ids = data.allItems[type].map((curr) => {
+        return curr.id;
+      });
+
+      index = ids.indexOf(id);
+
+      if (index !== -1) {
+        return data.allItems[type][index];
+      }
+    },
+
     // calculate total budget
     calculateBudget: () => {
       calculateTotal('exp');
@@ -289,10 +303,12 @@ const UIController = (() => {
       document.querySelector(element).insertAdjacentHTML('beforeend', newHtml);
     },
 
-    updateListItem: (selectorId) => {
+    updateListItem: (selectorId, item) => {
       let el = document.getElementById(selectorId);
-      console.log(el.description);
-      console.log(el);
+      console.log(item);
+      document.querySelector('.item__description').textContent =
+        item.description;
+      document.querySelector('.item__value').textContent = item.value;
     },
 
     deleteListItem: (selectorId) => {
@@ -486,17 +502,22 @@ const Controller = ((UICtrl, budgetCtrl) => {
 
       //console.log(`type: ${type}, id: ${ID}`);
 
-      // delete the item from the data structure
-      //budgetCtrl.deleteItem(ID, type);
+      // get item object
+      const item = budgetCtrl.getItem(ID, type);
 
-      // delete the item from the UI
-      UICtrl.updateListItem(itemID);
+      if (item) {
+        // delete the item from the data structure
+        budgetCtrl.deleteItem(ID, type);
 
-      // update and show the new budget
-      updateBudget();
+        // delete the item from the UI
+        UICtrl.updateListItem(itemID, item);
 
-      // calculate and update percentages
-      updatePercentages();
+        // update and show the new budget
+        updateBudget();
+
+        // calculate and update percentages
+        updatePercentages();
+      }
     }
   };
 
