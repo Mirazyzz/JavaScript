@@ -1,0 +1,23 @@
+{
+  "name": "food-recipies",
+  "version": "1.0.0",
+  "description": "food recipies front-end project",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Mirazyzz/JavaScript/tree/master/Food-Recipes"
+  },
+  "keywords": [
+    "js",
+    "front-end",
+    "food-recipies"
+  ],
+  "author": "Miraziz Khidoyatov",
+  "license": "ISC",
+  "devDependencies": {
+    "webpack": "^4.44.1"
+  }
+}
