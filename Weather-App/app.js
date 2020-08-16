@@ -1,9 +1,12 @@
+const searchbox = document.querySelector('.search-box');
+searchbox.addEventListener('keypress', setQuery);
+
 class Weather {
   constructor(date, temp, minTemp, maxTemp, weatherTitle, city, country) {
     this.date = date;
     this.temp = temp;
-    this.minTemp = minTemp;
-    this.maxTemp = maxTemp;
+    this.min_temp = minTemp;
+    this.max_temp = maxTemp;
     this.weatherTitle = weatherTitle;
     this.city = city;
     this.country = country;
@@ -16,9 +19,8 @@ async function getLocation(loc) {
       `https://cors-anywhere.herokuapp.com/https://www.metaweather.com/api/location/search/?query=${loc}`
     );
     const data = await result.json();
-    console.log(data);
 
-    getWeather(data[0].woeid);
+    return data;
   } catch (err) {
     console.log(err);
   }
@@ -29,9 +31,9 @@ async function getWeather(woeid) {
     const result = await fetch(
       `https://cors-anywhere.herokuapp.com/https://www.metaweather.com/api/location/${woeid}/`
     );
-    const data = await result.json();
+
     console.log(data);
-    console.log(getWeatherData(data));
+    const data = await result.json();
   } catch (err) {
     alert(err);
   }
@@ -71,16 +73,6 @@ function getWeatherData(data) {
   return [today, tomorrow, afterTomorrow];
 }
 
-getLocation('London');
-/*
-const api = {
-  key: 'afaf9f8d48cff6cafd32e23220bcfdbf',
-  base: 'https://api.openweathermap.org/data/2.5/',
-};
-
-const searchbox = document.querySelector('.search-box');
-searchbox.addEventListener('keypress', setQuery);
-
 function setQuery(evt) {
   if (evt.keyCode == 13) {
     getResults(searchbox.value);
@@ -88,30 +80,33 @@ function setQuery(evt) {
 }
 
 function getResults(query) {
-  fetch(`${api.base}weather?q=${query}&units=metric&APPID=${api.key}`)
-    .then((weather) => {
-      return weather.json();
-    })
-    .then(displayResults);
+  if (/^[a-zA-Z]/.test(query.trim(' ')) && query) {
+    const data = getLocation(query);
+
+    if (data) {
+      const weathers = getWeatherData(data);
+
+      displayResults(weathers[0]);
+    }
+  }
 }
 
 function displayResults(weather) {
   let city = document.querySelector('.location .city');
-  city.innerText = `${weather.name}, ${weather.sys.country}`;
+  city.innerText = `${weather.city}, ${weather.country}`;
 
-  let now = new Date();
   let date = document.querySelector('.location .date');
-  date.innerText = dateBuilder(now);
+  date.innerText = dateBuilder(weather.date);
 
   let temp = document.querySelector('.current .temp');
-  temp.innerHTML = `${Math.round(weather.main.temp)}<span>°c</span>`;
+  temp.innerHTML = `${Math.round(weather.temp)}<span>°c</span>`;
 
   let weather_el = document.querySelector('.current .weather');
-  weather_el.innerText = weather.weather[0].main;
+  weather_el.innerText = weather.weatherTitle;
 
   let hilow = document.querySelector('.hi-low');
-  hilow.innerText = `${Math.round(weather.main.temp_min)}°c / ${Math.round(
-    weather.main.temp_max
+  hilow.innerText = `${Math.round(weather.min_temp)}°c / ${Math.round(
+    weather.max_temp
   )}°c`;
 }
 
@@ -147,4 +142,3 @@ function dateBuilder(d) {
 
   return `${day} ${date} ${month} ${year}`;
 }
-*/
