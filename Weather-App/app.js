@@ -2,12 +2,13 @@ const searchbox = document.querySelector('.search-box');
 searchbox.addEventListener('keypress', setQuery);
 
 class Weather {
-  constructor(date, temp, minTemp, maxTemp, weatherTitle, city, country) {
+  constructor(date, temp, minTemp, maxTemp, title, titleAbbr, city, country) {
     this.date = new Date(date[0], date[1], date[2]);
     this.temp = temp;
     this.min_temp = minTemp;
     this.max_temp = maxTemp;
-    this.weatherTitle = weatherTitle;
+    this.title = title;
+    this.titleAbbr = titleAbbr;
     this.city = city;
     this.country = country;
   }
@@ -48,6 +49,7 @@ function getWeatherData(data) {
     Math.round(data.consolidated_weather[0].min_temp),
     Math.round(data.consolidated_weather[0].max_temp),
     data.consolidated_weather[0].weather_state_name,
+    data.consolidated_weather[0].weather_state_abbr,
     data.title,
     data.parent.title
   );
@@ -58,6 +60,7 @@ function getWeatherData(data) {
     Math.round(data.consolidated_weather[1].min_temp),
     Math.round(data.consolidated_weather[1].max_temp),
     data.consolidated_weather[1].weather_state_name,
+    data.consolidated_weather[1].weather_state_abbr,
     data.title,
     data.parent.title
   );
@@ -68,6 +71,7 @@ function getWeatherData(data) {
     Math.round(data.consolidated_weather[2].min_temp),
     Math.round(data.consolidated_weather[2].max_temp),
     data.consolidated_weather[2].weather_state_name,
+    data.consolidated_weather[2].weather_state_abbr,
     data.title,
     data.parent.title
   );
@@ -106,14 +110,15 @@ function displayResults(weather) {
   temp.innerHTML = `${Math.round(weather.temp)}<span>°c</span>`;
 
   let weather_el = document.querySelector('.current .weather');
-  weather_el.innerText = weather.weatherTitle;
+  weather_el.innerText = weather.title;
 
   let hilow = document.querySelector('.hi-low');
   hilow.innerText = `${Math.round(weather.min_temp)}°c / ${Math.round(
     weather.max_temp
   )}°c`;
 
-  console.log(weather.title);
+  console.log(weather.titleAbbr);
+  document.body.style.backgroundImage = `url('img/${weather.titleAbbr}.jpg')`;
 }
 
 function dateBuilder(d) {
