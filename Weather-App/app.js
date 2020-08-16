@@ -3,7 +3,7 @@ searchbox.addEventListener('keypress', setQuery);
 
 class Weather {
   constructor(date, temp, minTemp, maxTemp, weatherTitle, city, country) {
-    this.date = date;
+    this.date = new Date(date[0], date[1], date[2]);
     this.temp = temp;
     this.min_temp = minTemp;
     this.max_temp = maxTemp;
@@ -18,9 +18,10 @@ async function getLocation(loc) {
     const result = await fetch(
       `https://cors-anywhere.herokuapp.com/https://www.metaweather.com/api/location/search/?query=${loc}`
     );
+
     const data = await result.json();
 
-    return data;
+    return data[0].woeid;
   } catch (err) {
     console.log(err);
   }
@@ -32,8 +33,9 @@ async function getWeather(woeid) {
       `https://cors-anywhere.herokuapp.com/https://www.metaweather.com/api/location/${woeid}/`
     );
 
-    console.log(data);
-    const data = await result.json();
+    const weatherData = await result.json();
+
+    return weatherData;
   } catch (err) {
     alert(err);
   }
@@ -41,7 +43,7 @@ async function getWeather(woeid) {
 
 function getWeatherData(data) {
   const today = new Weather(
-    data.consolidated_weather[0].applicable_date,
+    data.consolidated_weather[0].applicable_date.split('-'),
     Math.round(data.consolidated_weather[0].the_temp),
     Math.round(data.consolidated_weather[0].min_temp),
     Math.round(data.consolidated_weather[0].max_temp),
@@ -75,19 +77,21 @@ function getWeatherData(data) {
 
 function setQuery(evt) {
   if (evt.keyCode == 13) {
+    //console.log(searchbox.value);
     getResults(searchbox.value);
   }
 }
 
 function getResults(query) {
   if (/^[a-zA-Z]/.test(query.trim(' ')) && query) {
-    const data = getLocation(query);
-
-    if (data) {
-      const weathers = getWeatherData(data);
-
-      displayResults(weathers[0]);
-    }
+    getLocation(query).then((loc) => {
+      //console.log(loc);
+      getWeather(loc).then((data) => {
+        //console.log(data);
+        //console.log(getWeatherData(data));
+        displayResults(getWeatherData(data)[0]);
+      });
+    });
   }
 }
 
@@ -108,6 +112,8 @@ function displayResults(weather) {
   hilow.innerText = `${Math.round(weather.min_temp)}°c / ${Math.round(
     weather.max_temp
   )}°c`;
+
+  console.log(weather.title);
 }
 
 function dateBuilder(d) {
