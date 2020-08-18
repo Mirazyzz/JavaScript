@@ -80,31 +80,29 @@ const BudgetController = (() => {
       const exp = JSON.parse(localStorage.getItem('exp'));
       let incomes;
       let expenses;
+
+      // if there is object of income in localstorage
       if (inc) {
         incomes = inc.map(
           (el) => new Income(el.id, el.description, el.value, el.addedDate)
         );
       }
 
+      // if there is object of expense in localstorage
       if (exp) {
         expenses = exp.map(
           (el) => new Expense(el.id, el.description, el.value, el.addedDate)
         );
       }
 
-      //console.log(incomes[0]);
-      //console.log(expenses[0]);
-
+      // if there are data in income objects in localstorage
       if (incomes) {
-        //incomes.forEach((el) => (el = Object.assign(Income.prototype, el)));
-
         data.allItems['inc'] = incomes;
         //console.log(typeof incomes[0]);
       }
 
+      // if there are data in expense objects in localstorage
       if (expenses) {
-        //expenses.forEach((el) => Object.assign(Expense.prototype, el));
-
         data.allItems['exp'] = expenses;
       }
     },
@@ -112,6 +110,7 @@ const BudgetController = (() => {
     addItem: (type, des, val) => {
       let newItem, ID;
 
+      // if there are elements in given type, generate new ID
       if (data.allItems[type].length > 0) {
         ID = data.allItems[type][data.allItems[type].length - 1].id + 1;
       } else {
@@ -122,8 +121,10 @@ const BudgetController = (() => {
       } else if (type === 'inc') {
         newItem = new Income(ID, des, val);
       }
+      // save in data structure
       data.allItems[type].push(newItem);
 
+      // save on localstorage
       localStorage.setItem(type, JSON.stringify(data.allItems[type]));
 
       return newItem;
@@ -132,16 +133,19 @@ const BudgetController = (() => {
     deleteItem: (id, type) => {
       let ids, index;
 
+      // get all ids of given type
       ids = data.allItems[type].map((curr) => {
         return curr.id;
       });
 
+      // get index of selected element id
       index = ids.indexOf(id);
 
       if (index !== -1) {
         data.allItems[type].splice(index, 1);
       }
 
+      // remove from localstorage
       localStorage.setItem(type, JSON.stringify(data.allItems[type]));
     },
 
@@ -265,6 +269,7 @@ const UIController = (() => {
     return (type === 'exp' ? '-' : '+') + ' ' + int + '.' + dec;
   };
 
+  // iterate over each node and perform some action
   const nodeListForEach = (list, callback) => {
     for (let i = 0; i < list.length; i++) {
       callback(list[i], i);
@@ -336,10 +341,12 @@ const UIController = (() => {
       fieldsArr[0].focus();
     },
 
+    // Display budget to the UI
     displayBudget: (obj) => {
       let type;
       obj.budget > 0 ? (type = 'inc') : (type = 'exp');
 
+      // format total budget regarding to its value ' -15 | 15 '
       document.querySelector(DOMstrings.budgetLabel).textContent = formatNumber(
         obj.budget,
         type
@@ -363,6 +370,7 @@ const UIController = (() => {
     displayPercentages: (percentages) => {
       let fields = document.querySelectorAll(DOMstrings.expensesPercLabel);
 
+      // for each element change the percentage
       nodeListForEach(fields, (current, index) => {
         if (percentages[index] > 0) {
           current.textContent = percentages[index] + '%';
