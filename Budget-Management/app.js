@@ -78,15 +78,16 @@ const BudgetController = (() => {
     loadData: () => {
       const inc = JSON.parse(localStorage.getItem('inc'));
       const exp = JSON.parse(localStorage.getItem('exp'));
-
+      let incomes;
+      let expenses;
       if (inc) {
-        const incomes = inc.map(
+        incomes = inc.map(
           (el) => new Income(el.id, el.description, el.value, el.addedDate)
         );
       }
 
       if (exp) {
-        const expenses = exp.map(
+        expenses = exp.map(
           (el) => new Expense(el.id, el.description, el.value, el.addedDate)
         );
       }
