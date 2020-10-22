@@ -1,4 +1,5 @@
 const searchbox = document.querySelector('.search-box');
+const key = '8199d1cabcec8adf710f70c4a334dc32';
 searchbox.addEventListener('keypress', setQuery);
 
 class Weather {
@@ -17,7 +18,7 @@ class Weather {
 async function getLocation(loc) {
   try {
     const result = await fetch(
-      `https://cors-anywhere.herokuapp.com/https://www.metaweather.com/api/location/search/?query=${loc}`
+      `https://api.openweathermap.org/data/2.5/weather?&q=London&appid=${key}`
     );
 
     const data = await result.json();
@@ -28,10 +29,10 @@ async function getLocation(loc) {
   }
 }
 
-async function getWeather(woeid) {
+async function getWeather(loc) {
   try {
     const result = await fetch(
-      `https://cors-anywhere.herokuapp.com/https://www.metaweather.com/api/location/${woeid}/`
+      `https://api.openweathermap.org/data/2.5/weather?&q=${loc}&appid=${key}`
     );
 
     const weatherData = await result.json();
@@ -88,13 +89,11 @@ function setQuery(evt) {
 
 function getResults(query) {
   if (/^[a-zA-Z]/.test(query.trim(' ')) && query) {
-    getLocation(query).then((loc) => {
-      //console.log(loc);
-      getWeather(loc).then((data) => {
-        //console.log(data);
-        //console.log(getWeatherData(data));
-        displayResults(getWeatherData(data)[0]);
-      });
+    //console.log(loc);
+    getWeather(query).then((data) => {
+      //console.log(data);
+      //console.log(getWeatherData(data));
+      displayResults(getWeatherData(data)[0]);
     });
   }
 }
@@ -154,18 +153,19 @@ function dateBuilder(d) {
   return `${day} ${date} ${month} ${year}`;
 }
 
-async function getWeatherInfo(loc) {
-  try {
-    const result = await fetch(
-      `https://cors-anywhere.herokuapp.com/https://www.metaweather.com/api/location/search/?query=${loc}`
-    );
-
-    const data = await result.json();
-
-    return data[0].woeid;
-  } catch (err) {
-    console.log(err);
-  }
+function weatherBalloon(cityID) {
+  fetch()
+    .then(function (resp) {
+      return resp.json();
+    }) // Convert data to json
+    .then(function (data) {
+      console.log(data);
+    })
+    .catch(function () {
+      // catch any errors
+    });
 }
 
-getWeatherInfo('Warsaw');
+window.onload = function () {
+  weatherBalloon(6167865);
+};
