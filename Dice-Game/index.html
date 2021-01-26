@@ -2,99 +2,35 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link
-      href="https://fonts.googleapis.com/css?family=Lato:100,300,600"
-      rel="stylesheet"
-      type="text/css"
-    />
-    <link
-      href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css"
-      rel="stylesheet"
-      type="text/css"
-    />
-    <link type="text/css" rel="stylesheet" href="style.css" />
-
-    <title>Dice Game</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link rel="stylesheet" href="style.css" />
+    <title>Pig Game</title>
   </head>
-
   <body>
-    <div class="wrapper clearfix">
-      <div class="player-0-panel active">
-        <div class="player-name" id="name-0">Player 1</div>
-        <div class="player-score" id="score-0">43</div>
-        <div class="player-current-box">
-          <div class="player-current-label">Current</div>
-          <div class="player-current-score" id="current-0">11</div>
+    <main>
+      <section class="player player--0 player--active">
+        <h2 class="name" id="name--0">Player 1</h2>
+        <p class="score" id="score--0">43</p>
+        <div class="current">
+          <p class="current-label">Current</p>
+          <p class="current-score" id="current--0">0</p>
         </div>
-      </div>
-
-      <div class="player-1-panel">
-        <div class="player-name" id="name-1">Player 2</div>
-        <div class="player-score" id="score-1">72</div>
-        <div class="player-current-box">
-          <div class="player-current-label">Current</div>
-          <div class="player-current-score" id="current-1">0</div>
+      </section>
+      <section class="player player--1">
+        <h2 class="name" id="name--1">Player 2</h2>
+        <p class="score" id="score--1">24</p>
+        <div class="current">
+          <p class="current-label">Current</p>
+          <p class="current-score" id="current--1">0</p>
         </div>
-      </div>
+      </section>
 
-      <button class="btn-new">
-        <i class="ion-ios-plus-outline"></i>New game
-      </button>
-      <button class="btn-roll"><i class="ion-ios-loop"></i>Roll dice</button>
-      <button class="btn-hold">
-        <i class="ion-ios-download-outline"></i>Hold
-      </button>
-
-      <input type="text" placeholder="Goal score" class="final-score" />
-
-      <div>
-        <button class="btn-rules">
-          Rules
-        </button>
-        <div class="modal">
-          <div class="modal-content">
-            <span class="close-button">&times;</span>
-            <h1>Game rules</h1>
-            <br />
-            <p>1. The game has 2 players, playing in rounds.</p>
-            <br />
-            <p>2. The GOAL score is set at the beginning by the user.</p>
-            <br />
-            <p>
-              3. In each turn, a player rolls a dice and each result gets added
-              to his ROUND score.
-            </p>
-            <br />
-            <p>
-              4. A Player loses his ROUND score when he rolls two 1s in a row
-              and it's next Player's turn.
-            </p>
-            <br />
-            <p>
-              5. A Player loses his TOTAL score when he rolls two 6s two times
-              in a row.
-            </p>
-            <br />
-            <p>
-              6. The Player can choose to 'Hold', which means that his ROUND
-              score gets added to his GLOBAL score and after that it's next
-              Player's turn.
-            </p>
-            <br />
-            <p>
-              7. The first player to reach points which is set at the beginning,
-              wins the game.
-            </p>
-          </div>
-        </div>
-      </div>
-
-      <img src="dice-5.png" alt="Dice" class="dice" id="dice-1" />
-      <img src="dice-5.png" alt="Dice" class="dice" id="dice-2" />
-    </div>
-
-    <!--<script src="app.js"></script>-->
+      <img src="dice-5.png" alt="Playing dice" class="dice" />
+      <button class="btn btn--new">🔄 New game</button>
+      <button class="btn btn--roll">🎲 Roll dice</button>
+      <button class="btn btn--hold">📥 Hold</button>
+    </main>
     <script src="script.js"></script>
-    <script src="modal.js"></script>
   </body>
 </html>
