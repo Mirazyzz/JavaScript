@@ -30,6 +30,23 @@
       <button class="btn btn-new">🔄 New game</button>
       <button class="btn btn-roll">🎲 Roll dice</button>
       <button class="btn btn-hold">📥 Hold</button>
+
+      <!-- The Modal -->
+      <div class="modal hidden">
+        <h2>Set up game</h2>
+        
+        <div class="modal-body">
+          <p>Please, enter goal score of the game greater than 0</p>
+          <br>
+          <input type="text" id="goal-score" name="score-input">
+          <p>Please, enter number of dice</p>
+          <br>
+          <input type="text" id="dice-number" name="dice-input">
+          <br>
+          <button class="close-modal">Submit</button>
+        </div>
+      </div>
+      <div class="overlay hidden"></div>
     </main>
     <script src="script.js"></script>
   </body>
