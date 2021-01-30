@@ -15,6 +15,7 @@ const btnsOpenModal = document.querySelectorAll('.show-modal');
 const btnNewGame = document.querySelector('.btn-new');
 
 let goalScore;
+let dice;
 
 // setting up event listeners
 btnCloseModal.addEventListener('click', closeModal);
@@ -50,21 +51,26 @@ function openModal() {
 
 function closeModal() {
   const goalScore = document.getElementById('goal-score');
+  const diceSelect = document.getElementById('dice-number');
+  const diceCount = diceSelect.options[diceSelect.selectedIndex].text;
 
   if (goalScore.value) {
     goalScore.style.border = '2px solid';
     modal.classList.add('hidden');
     overlay.classList.add('hidden');
 
-    setupGame(goalScore.value);
+    setupGame(goalScore.value, diceCount);
   } else {
     document.getElementById('goal-score').style.borderColor = 'red';
     alert('Please, enter goal score value');
   }
 }
 
-const setupGame = (goalScore) => {
+const setupGame = (goalScore, diceCount) => {
   goalScore = goalScore;
+  dice = diceCount;
   firstScore.textContent = '0';
   secondScore.textContent = '0';
 };
+
+const rollDice = () => {};

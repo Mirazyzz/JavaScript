@@ -156,13 +156,13 @@ main {
 }
 
 .btn-new {
-  top: 4rem;
+  top: 2rem;
 }
 .btn-roll {
-  top: 39.3rem;
+  top: 42.5rem;
 }
 .btn-hold {
-  top: 46.1rem;
+  top: 50.5rem;
 }
 
 .btn:active {
@@ -177,10 +177,14 @@ main {
 .dice {
   position: absolute;
   left: 50%;
-  top: 16.5rem;
+  top: 12.5rem;
   transform: translateX(-50%);
   height: 10rem;
   box-shadow: 0 2rem 5rem rgba(0, 0, 0, 0.2);
+}
+
+#dice-1 {
+  top: 25.5rem;
 }
 
 .player-winner {
