@@ -41,6 +41,13 @@ input {
   border: 2px solid;
   margin-bottom: 2rem;
 }
+
+select {
+  font-size: 2rem;
+  border: 2px solid;
+  margin-bottom: 2rem;
+  width: 245px;
+}
 /* LAYOUT */
 main {
   position: relative;
