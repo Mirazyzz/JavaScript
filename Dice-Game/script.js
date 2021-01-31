@@ -22,6 +22,7 @@ const btnHold = document.querySelector('.btn-hold');
 let active = 0;
 let goalScore;
 let dice;
+let isGameOn = false;
 
 // setting up event listeners
 btnCloseModal.addEventListener('click', closeModal);
@@ -79,6 +80,7 @@ function setupGame(goalScore, diceCount) {
   dice = diceCount;
   firstScore.textContent = '0';
   secondScore.textContent = '0';
+  isGameOn = true;
 
   if (dice == 1) {
     firstDice.style.visibility = 'visible';
@@ -89,6 +91,8 @@ function setupGame(goalScore, diceCount) {
 }
 
 function roll() {
+  if (!isGameOn) return;
+
   if (dice == 1) {
     const roll = Math.floor(Math.random() * 6) + 1;
 
@@ -114,6 +118,8 @@ function roll() {
   }
 }
 function hold() {
+  if (!isGameOn) return;
+
   if (active == 0) {
     firstScore.textContent =
       Number(firstCurrentScore.textContent) + Number(firstScore.textContent);
@@ -125,4 +131,7 @@ function hold() {
     secondCurrentScore.textContent = '0';
     active = 0;
   }
+
+  firstPlayer.classList.toggle('player-active');
+  secondPlayer.classList.toggle('player-active');
 }
