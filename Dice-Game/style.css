@@ -89,6 +89,24 @@ main {
   margin-bottom: auto;
 }
 
+#total-0 {
+  font-size: 8rem;
+  font-weight: 300;
+  color: #fff;
+  text-align: left;
+  margin-left: -40rem;
+  margin-top: -10rem;
+}
+
+#total-1 {
+  font-size: 8rem;
+  font-weight: 300;
+  color: #fff;
+  text-align: left;
+  margin-right: -40rem;
+  margin-top: -10rem;
+}
+
 .player-active {
   background-color: rgba(255, 255, 255, 0.4);
 }

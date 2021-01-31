@@ -26,6 +26,8 @@ let active = 0;
 let goalScore;
 let dice;
 let isGameOn = false;
+let firstTotalScore = 0;
+let secondTotalScore = 0;
 
 // setting up event listeners
 btnCloseModal.addEventListener('click', closeModal);
@@ -142,10 +144,7 @@ function roll() {
     firstDice.src = `img/dice-${firstRoll}.png`;
     secondDice.src = `img/dice-${secondRoll}.png`;
 
-    if (
-      (firstRoll == 1 && secondRoll == 1) ||
-      (firstRoll == 6 && secondRoll == 6)
-    ) {
+    if (firstRoll == secondRoll) {
       switchPlayer();
       return;
     }
@@ -171,6 +170,7 @@ function hold() {
 
     if (Number(firstScore.textContent) >= goalScore) {
       document.getElementById('name-0').textContent = 'Winner!';
+      document.getElementById('total-0').textContent = ++firstTotalScore;
       isGameOn = false;
     }
   } else {
@@ -180,6 +180,7 @@ function hold() {
 
     if (Number(secondScore.textContent) >= goalScore) {
       document.getElementById('name-1').textContent = 'Winner!';
+      document.getElementById('total-1').textContent = ++secondTotalScore;
       isGameOn = false;
     }
   }
