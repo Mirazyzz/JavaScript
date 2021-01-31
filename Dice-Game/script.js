@@ -94,7 +94,10 @@ function setupGame(inputScore, diceCount) {
 }
 
 function roll() {
-  if (!isGameOn) return;
+  if (!isGameOn) {
+    alert('Please, start a new game');
+    return;
+  }
 
   if (dice == 1) {
     const roll = Math.floor(Math.random() * 6) + 1;
@@ -122,7 +125,10 @@ function roll() {
 }
 
 function hold() {
-  if (!isGameOn) return;
+  if (!isGameOn) {
+    alert('Please, start a new game');
+    return;
+  }
 
   if (active == 0) {
     // Add current score to the global score
