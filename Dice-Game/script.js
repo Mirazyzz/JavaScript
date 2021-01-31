@@ -19,6 +19,9 @@ const btnNewGame = document.querySelector('.btn-new');
 const btnRoll = document.querySelector('.btn-roll');
 const btnHold = document.querySelector('.btn-hold');
 
+// player who started game on previous game/round
+let previousStarted = 0;
+// current player
 let active = 0;
 let goalScore;
 let dice;
@@ -63,7 +66,7 @@ function closeModal() {
   const diceSelect = document.getElementById('dice-number');
   const diceCount = diceSelect.options[diceSelect.selectedIndex].text;
 
-  if (goalScore.value) {
+  if (isValidNumber(goalScore.value)) {
     goalScore.style.border = '2px solid';
     modal.classList.add('hidden');
     overlay.classList.add('hidden');
@@ -75,8 +78,8 @@ function closeModal() {
   }
 }
 
-function setupGame(goalScore, diceCount) {
-  goalScore = goalScore;
+function setupGame(inputScore, diceCount) {
+  goalScore = Number(inputScore);
   dice = diceCount;
   firstScore.textContent = '0';
   secondScore.textContent = '0';
@@ -117,21 +120,37 @@ function roll() {
           firstRoll + secondRoll + Number(secondCurrentScore.textContent));
   }
 }
+
 function hold() {
   if (!isGameOn) return;
 
   if (active == 0) {
+    // Add current score to the global score
     firstScore.textContent =
       Number(firstCurrentScore.textContent) + Number(firstScore.textContent);
+
+    if (Number(firstScore.textContent) >= goalScore) {
+      isGameOn = false;
+    }
     firstCurrentScore.textContent = '0';
     active = 1;
   } else {
+    // Add current score to the global score
     secondScore.textContent =
       Number(secondCurrentScore.textContent) + Number(secondScore.textContent);
+
+    console.log(secondScore.textContent, goalScore);
+    if (Number(secondScore.textContent) >= goalScore) {
+      isGameOn = false;
+    }
     secondCurrentScore.textContent = '0';
     active = 0;
   }
 
   firstPlayer.classList.toggle('player-active');
   secondPlayer.classList.toggle('player-active');
+}
+
+function isValidNumber(value) {
+  return /^\d+$/.test(value);
 }
