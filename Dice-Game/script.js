@@ -74,7 +74,7 @@ function closeModal() {
     setupGame(goalScore.value, diceCount);
   } else {
     document.getElementById('goal-score').style.borderColor = 'red';
-    alert('Please, enter goal score value');
+    alert('Please, enter valid goal score value');
   }
 }
 
@@ -83,11 +83,18 @@ function setupGame(inputScore, diceCount) {
   dice = diceCount;
   firstScore.textContent = '0';
   secondScore.textContent = '0';
+  firstCurrentScore.textContent = '0';
+  secondCurrentScore.textContent = '0';
   isGameOn = true;
+  document.getElementById('name-0').textContent = 'Player 1';
+  document.getElementById('name-1').textContent = 'Player 2';
 
   if (dice == 1) {
+    firstDice.src = 'img/dice-6.png';
     firstDice.style.visibility = 'visible';
   } else {
+    firstDice.src = 'img/dice-6.png';
+    secondDice.src = 'img/dice-6.png';
     firstDice.style.visibility = 'visible';
     secondDice.style.visibility = 'visible';
   }
@@ -104,6 +111,11 @@ function roll() {
 
     firstDice.src = `img/dice-${roll}.png`;
 
+    if (roll === 1) {
+      switchPlayer();
+      return;
+    }
+
     active == 0
       ? (firstCurrentScore.textContent =
           roll + Number(firstCurrentScore.textContent))
@@ -115,6 +127,14 @@ function roll() {
 
     firstDice.src = `img/dice-${firstRoll}.png`;
     secondDice.src = `img/dice-${secondRoll}.png`;
+
+    if (
+      (firstRoll == 1 && secondRoll == 1) ||
+      (firstRoll == 6 && secondRoll == 6)
+    ) {
+      switchPlayer();
+      return;
+    }
 
     active == 0
       ? (firstCurrentScore.textContent =
@@ -136,27 +156,33 @@ function hold() {
       Number(firstCurrentScore.textContent) + Number(firstScore.textContent);
 
     if (Number(firstScore.textContent) >= goalScore) {
+      document.getElementById('name-0').textContent = 'Winner!';
       isGameOn = false;
     }
-    firstCurrentScore.textContent = '0';
-    active = 1;
   } else {
     // Add current score to the global score
     secondScore.textContent =
       Number(secondCurrentScore.textContent) + Number(secondScore.textContent);
 
-    console.log(secondScore.textContent, goalScore);
     if (Number(secondScore.textContent) >= goalScore) {
+      document.getElementById('name-1').textContent = 'Winner!';
       isGameOn = false;
     }
-    secondCurrentScore.textContent = '0';
-    active = 0;
   }
 
-  firstPlayer.classList.toggle('player-active');
-  secondPlayer.classList.toggle('player-active');
+  switchPlayer();
 }
 
 function isValidNumber(value) {
   return /^\d+$/.test(value);
+}
+
+function switchPlayer() {
+  active == 0 ? (active = 1) : (active = 0);
+
+  firstPlayer.classList.toggle('player-active');
+  secondPlayer.classList.toggle('player-active');
+
+  firstCurrentScore.textContent = '0';
+  secondCurrentScore.textContent = '0';
 }
