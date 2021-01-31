@@ -48,6 +48,22 @@ select {
   margin-bottom: 2rem;
   width: 245px;
 }
+
+#icon {
+  font-size: 48px;
+  color: rgb(171, 104, 241);
+  position: absolute;
+  right: 40px;
+  top: 50px;
+}
+
+.how-to {
+  color: rgb(171, 104, 241);
+  position: absolute;
+  right: 20px;
+  top: 20px;
+}
+
 /* LAYOUT */
 main {
   position: relative;

@@ -18,6 +18,7 @@ const btnsOpenModal = document.querySelectorAll('.show-modal');
 const btnNewGame = document.querySelector('.btn-new');
 const btnRoll = document.querySelector('.btn-roll');
 const btnHold = document.querySelector('.btn-hold');
+const btnHowTo = document.querySelector('.fa-question-circle');
 
 // player who started game on previous game/round
 let previousStarted = 1;
@@ -35,28 +36,7 @@ overlay.addEventListener('click', closeModal);
 btnNewGame.addEventListener('click', () => openModal());
 btnRoll.addEventListener('click', roll);
 btnHold.addEventListener('click', hold);
-
-// document.addEventListener('keydown', function (e) {
-//   // console.log(e.key);
-
-//   if (e.key === 'Escape' && !modal.classList.contains('hidden')) {
-//     closeModal();
-//   }
-// });
-
-// firstScore.textContent = '0';
-// secondScore.textContent = '0';
-// diceElement.classList.add('hidden');
-
-// const openModal = () => {
-//   modal.classList.remove('hidden');
-//   overlay.classList.remove('hidden');
-// };
-
-// const closeModal = () => {
-//   modal.classList.add('hidden');
-//   overlay.classList.add('hidden');
-// };
+btnHowTo.addEventListener('click', () => openRulesModal());
 
 function openModal() {
   modal.classList.remove('hidden');
@@ -79,6 +59,8 @@ function closeModal() {
     alert('Please, enter valid goal score value');
   }
 }
+
+function openRulesModal() {}
 
 function setupGame(inputScore, diceCount) {
   goalScore = Number(inputScore);
