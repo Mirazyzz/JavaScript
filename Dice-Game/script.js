@@ -20,7 +20,7 @@ const btnRoll = document.querySelector('.btn-roll');
 const btnHold = document.querySelector('.btn-hold');
 
 // player who started game on previous game/round
-let previousStarted = 0;
+let previousStarted = 1;
 // current player
 let active = 0;
 let goalScore;
@@ -88,6 +88,20 @@ function setupGame(inputScore, diceCount) {
   isGameOn = true;
   document.getElementById('name-0').textContent = 'Player 1';
   document.getElementById('name-1').textContent = 'Player 2';
+
+  if (previousStarted == 0) {
+    previousStarted = 1;
+    active = 1;
+
+    firstPlayer.classList.remove('player-active');
+    secondPlayer.classList.add('player-active');
+  } else {
+    previousStarted = 0;
+    active = 0;
+
+    firstPlayer.classList.add('player-active');
+    secondPlayer.classList.remove('player-active');
+  }
 
   if (dice == 1) {
     firstDice.src = 'img/dice-6.png';
