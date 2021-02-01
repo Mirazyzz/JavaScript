@@ -7,4 +7,4 @@
 To get started with the application it is enough to download the repository/folder and open index.html
 
 ## Flow chart
-![dice-game-flowchart](https://user-images.githubusercontent.com/49793609/106502650-ea2b3580-64c4-11eb-900f-2ac9920a8017.png)
+![dice-game-flowchart](https://user-images.githubusercontent.com/49793609/106502825-26f72c80-64c5-11eb-9f31-45d08b5cee73.png)
