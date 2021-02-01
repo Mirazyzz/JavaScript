@@ -11,7 +11,7 @@ const firstPlayer = document.querySelector('.player-0');
 const secondPlayer = document.querySelector('.player-1');
 
 const modalSetup = document.querySelector('.modal');
-const modalHowTo = document.querySelector('.how-to');
+const modalHowTo = document.querySelector('.modal-how-to');
 const overlay = document.querySelector('.overlay-setup');
 const overlayHowTo = document.querySelector('.overlay-how-to');
 const btnCloseModal = document.querySelector('.close-modal');
