@@ -215,7 +215,8 @@ function hold() {
     }
   }
 
-  switchPlayer();
+  // if there is no winner yet, then switch current player
+  if (isGameOn) switchPlayer();
 }
 
 function isValidNumber(value) {
