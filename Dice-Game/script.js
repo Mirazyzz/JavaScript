@@ -20,6 +20,8 @@ const btnNewGame = document.querySelector('.btn-new');
 const btnRoll = document.querySelector('.btn-roll');
 const btnHold = document.querySelector('.btn-hold');
 const btnHowTo = document.querySelector('.fa-question-circle');
+const btnCancelSetup = document.querySelector('.cancel-setup');
+const btnCancelHowTo = document.querySelector('.close-how-to');
 
 // player who started game on previous game/round
 let previousStarted = 1;
@@ -39,6 +41,8 @@ btnNewGame.addEventListener('click', () => openModal());
 btnRoll.addEventListener('click', roll);
 btnHold.addEventListener('click', hold);
 btnHowTo.addEventListener('click', () => openHowToModal());
+btnCancelSetup.addEventListener('click', () => cancelSetup());
+btnCancelHowTo.addEventListener('click', () => closeHowToModal());
 
 function openModal() {
   modalSetup.classList.remove('hidden');
@@ -60,6 +64,11 @@ function closeModal() {
     document.getElementById('goal-score').style.borderColor = 'red';
     alert('Please, enter valid goal score value');
   }
+}
+
+function cancelSetup() {
+  modalSetup.classList.add('hidden');
+  overlay.classList.add('hidden');
 }
 
 function openHowToModal() {
