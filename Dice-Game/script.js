@@ -9,10 +9,11 @@ const firstDice = document.getElementById('dice-0');
 const secondDice = document.getElementById('dice-1');
 const firstPlayer = document.querySelector('.player-0');
 const secondPlayer = document.querySelector('.player-1');
-const modalSetup = document.querySelector('.modal');
 
-const modal = document.querySelector('.modal');
-const overlay = document.querySelector('.overlay');
+const modalSetup = document.querySelector('.modal');
+const modalHowTo = document.querySelector('.how-to');
+const overlay = document.querySelector('.overlay-setup');
+const overlayHowTo = document.querySelector('.overlay-how-to');
 const btnCloseModal = document.querySelector('.close-modal');
 const btnsOpenModal = document.querySelectorAll('.show-modal');
 const btnNewGame = document.querySelector('.btn-new');
@@ -33,13 +34,14 @@ let secondTotalScore = 0;
 // setting up event listeners
 btnCloseModal.addEventListener('click', closeModal);
 overlay.addEventListener('click', closeModal);
+overlayHowTo.addEventListener('click', closeHowToModal);
 btnNewGame.addEventListener('click', () => openModal());
 btnRoll.addEventListener('click', roll);
 btnHold.addEventListener('click', hold);
-btnHowTo.addEventListener('click', () => openRulesModal());
+btnHowTo.addEventListener('click', () => openHowToModal());
 
 function openModal() {
-  modal.classList.remove('hidden');
+  modalSetup.classList.remove('hidden');
   overlay.classList.remove('hidden');
 }
 
@@ -50,7 +52,7 @@ function closeModal() {
 
   if (isValidNumber(goalScore.value)) {
     goalScore.style.border = '2px solid';
-    modal.classList.add('hidden');
+    modalSetup.classList.add('hidden');
     overlay.classList.add('hidden');
 
     setupGame(goalScore.value, diceCount);
@@ -60,7 +62,15 @@ function closeModal() {
   }
 }
 
-function openRulesModal() {}
+function openHowToModal() {
+  modalHowTo.classList.remove('hidden');
+  overlayHowTo.classList.remove('hidden');
+}
+
+function closeHowToModal() {
+  modalHowTo.classList.add('hidden');
+  overlayHowTo.classList.add('hidden');
+}
 
 function setupGame(inputScore, diceCount) {
   goalScore = Number(inputScore);
