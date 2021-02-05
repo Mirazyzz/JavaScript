@@ -1,36 +1,81 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: inherit;
+}
+
+html {
+  font-size: 62.5%;
+  box-sizing: border-box;
+}
+
 body {
-    font-family: "Open Sans", sans-serif;
-    line-height: 1.6;
+  font-family: 'Nunito', sans-serif;
+  font-weight: 400;
+  height: 100vh;
+  background-image: linear-gradient(to top left, #d4d0e0 0%, #ffffff 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.add-todo-input,
-.edit-todo-input {
-    outline: none;
+input[type='text'],
+select {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
 }
 
-.add-todo-input:focus,
-.edit-todo-input:focus {
-    border: none !important;
-    box-shadow: none !important;
+input[type='text']:focus {
+  border: #555;
 }
 
-.view-opt-label,
-.date-label {
-    font-size: 0.8rem;
+main {
+  position: relative;
+  width: 100rem;
+  height: 60rem;
+  background-color: rgba(255, 255, 255, 0.35);
+  backdrop-filter: blur(200px);
+  filter: blur();
+  box-shadow: 0 3rem 5rem rgba(0, 0, 0, 0.25);
+  border-radius: 9px;
 }
 
-.edit-todo-input {
-    font-size: 1.7rem !important;
+.title {
+  display: flex;
+  position: absolute;
+  left: 50%;
+  top: 25%;
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
 }
 
-.todo-actions {
-    visibility: hidden !important;
+.title > h1 {
+  font-size: 2.5rem;
+  color: rgb(4, 156, 156);
+  margin-left: 1rem;
 }
 
-.todo-item:hover .todo-actions {
-    visibility: visible !important;
+.title > i {
+  font-size: 3rem;
+  color: rgb(4, 156, 156);
 }
 
-.todo-item.editing .todo-actions .edit-icon {
-    display: none !important;
+.todo-input {
+  display: flex;
+  position: absolute;
+  left: 50%;
+  top: 45%;
+  width: 500px;
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+
+.todo-input > input {
+  width: 100%;
+  height: 35px;
 }
