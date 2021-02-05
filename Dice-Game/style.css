@@ -40,6 +40,10 @@ li {
   font-size: 1.8rem;
 }
 
+i:hover {
+  cursor: pointer;
+}
+
 input {
   font-size: 2rem;
   border: 2px solid;
