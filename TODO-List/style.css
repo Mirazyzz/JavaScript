@@ -46,11 +46,13 @@ main {
   border-radius: 9px;
 }
 
+/* header title */
+
 .title {
   display: flex;
   position: absolute;
   left: 50%;
-  top: 15%;
+  top: 10%;
   -webkit-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
 }
@@ -66,6 +68,8 @@ main {
   color: rgb(4, 156, 156);
 }
 
+/* end of header title */
+
 /* input */
 
 .todo-input {
@@ -74,15 +78,16 @@ main {
   position: absolute;
   padding: 2px;
   left: 50%;
-  top: 45%;
-  width: 800px;
+  top: 35%;
+  width: 950px;
   height: 100px;
   -webkit-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
 }
 
-.todo-input > input {
-  width: 15rem;
+.todo-input input {
+  padding-left: 20px;
+  width: 20rem;
   height: 7rem;
   padding: 12px 20px;
   flex-grow: 2;
@@ -90,4 +95,38 @@ main {
   font-size: 20px;
 }
 
+.todo-input button {
+  position: absolute;
+  right: 25px;
+  top: 14px;
+  border: none;
+  height: 40px;
+  width: 65px;
+  border-radius: 12px;
+  outline: none;
+  text-align: center;
+  font-weight: bold;
+  padding: 2px;
+  color: #ccc;
+  background-color: rgb(4, 156, 156);
+}
+
+.todo-input i {
+  position: absolute;
+  right: 110px;
+  top: 18px;
+  border: none;
+  height: 40px;
+  width: 65px;
+  outline: none;
+  text-align: center;
+  font-weight: bold;
+  padding: 2px;
+  color: rgb(4, 156, 156);
+}
+
+.todo-input button,
+i:hover {
+  cursor: pointer;
+}
 /* end of input */
